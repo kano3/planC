@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kano.plan_c.server.mapper.ItemLocMapper">
+    
+    <select id="queryInvByItemCode" resultType="com.kano.plan_c.server.entity.InvLocInfo">
+        SELECT
+            bi.item_code,
+            bi.item_name,
+            bla.lot01,
+            bl.loc_code,
+            il.qty,
+            il.qty_in,
+            il.qty_out,
+            il.qty_rep_in,
+            il.qty_rep_out,
+            il.qty_lock,
+            il.is_lock,
+            il.wh_id
+        FROM
+            INV_LOC il
+        LEFT JOIN BAS_ITEM bi ON bi.ITEM_ID = il.ITEM_ID
+        left JOIN BAS_LOCATION bl on bl.loc_id = il.loc_id
+        LEFT JOIN BAS_LOT_ATT bla ON bla.lot_id = il.lot_id
+        where bi.ITEM_CODE = #{itemCode}
+    </select>
+
+</mapper>

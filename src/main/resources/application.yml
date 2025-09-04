@@ -1,2 +1,33 @@
 server:
   port: 8413
+
+
+spring:
+  application:
+    name: spring-ai-mcpServer
+  ai:
+    mcp:
+      server:
+        name: demo-mcp-server
+        type: SYNC # 简单起步用同步；需要高并发可改 ASYNC
+        sse-endpoint: /mcp/sse # 事件流端点（Claude/Cursor 会连这里）
+        sse-message-endpoint: /mcp/message
+        capabilities:
+          tool: true
+          resource: false # 本模板只演示 Tools；需要再开
+          prompt: false
+          completion: false # 不接大模型
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@172.19.13.4:1521:wms8?oracle.jdbc.defaultNChar=true
+    username: WMS8YSC
+    password: WMS8YSC_20240428
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
