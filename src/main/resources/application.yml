@@ -20,8 +20,8 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@172.19.13.4:1521:wms8?oracle.jdbc.defaultNChar=true
-    username: WMS8YSC
-    password: WMS8YSC_20240428
+    username: WMS8JNZB
+    password: Wms8_JnZb_20231107
     hikari:
       maximum-pool-size: 10
       connection-timeout: 30000

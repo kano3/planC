@@ -23,7 +23,6 @@ public class ItemTools {
     @Tool(name = "ItemTools", description = "查询商品库存")
     public List<InvLocInfo> queryInventory(String sku) {
         // 这里用模拟数据，实际场景可以查数据库 / 调用ERP接口
-
         return invLocService.queryInvLocInfo(sku);
     }
 }

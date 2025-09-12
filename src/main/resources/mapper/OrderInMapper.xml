@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kano.plan_c.server.mapper.OrderInMapper">
+
+    <select id="queryIn" resultType="com.kano.plan_c.server.entity.OrderInInfo">
+        SELECT
+            ai.BUSINESS_CODE,
+            bc.CUSTOMER_CODE,
+            bc.CUSTOMER_NAME,
+            aid.QTY,
+            aid.ORDER_QTY,
+            ou.USER_NAME as order_name,
+            bi.ITEM_CODE,
+            bi.ITEM_NAME,
+            bla.lot01,
+            bl.LOC_CODE,
+            CASE ci.CMD_STATE
+                WHEN 1000 THEN
+                    '作业完成'
+                WHEN 10 THEN
+                    '入库收货'
+                WHEN 20 THEN
+                    '入库验收'
+                WHEN 60 THEN
+                    '入库确认'
+                WHEN 70 THEN
+                    '入库-PDA复核'
+                WHEN 50 THEN
+                    '入库-索取'
+                ELSE '未收货'
+            END CMD_STATE_NAME,
+            qu.USER_NAME as quality_name,
+            pu.USER_NAME as put_name,
+            iwd.BEACTIVE,
+            iwd.MSGTX
+        FROM
+            ASN_IN ai
+                LEFT JOIN BAS_CUSTOMER bc on bc.CUSTOMER_ID = ai.SUPPLIER_ID
+                LEFT JOIN ASN_IN_DETAILS aid on aid.ASN_IN_ID = ai.ASN_IN_ID
+                LEFT JOIN ORDER_IN_DETAILS oid on oid.ASN_IN_ID = aid.ASN_IN_ID and oid.ASN_LINE_NO = aid.ASN_LINE_NO
+                left JOIN ORDER_IN oi on oi.ORDER_IN_ID = oid.ORDER_IN_ID
+                left JOIN CMD_IN ci on ci.ORDER_ID = oid.ORDER_IN_ID and ci.ORDER_LINE_NO = oid.ORDER_LINE_NO
+                left JOIN INTERFACE_WMS_DOC iwd on iwd.vbeln = ai.BUSINESS_CODE  and iwd.POSNR = ci.BUSINESS_CODE_LINE
+                left JOIN BAS_ITEM bi on bi.ITEM_ID = ci.ITEM_ID
+                left JOIN BAS_LOT_ATT bla on bla.lot_id = ci.lot_id
+                left join BAS_LOCATION bl on bl.loc_id = ci.loc_id
+                left join sys_user ou on ou.user_id = oi.ORDER_STAFF_ID
+                left join sys_user qu on qu.user_id = ci.QUALITY_EMPLOYEE_ID
+                left join sys_user pu on pu.user_id = ci.PUT_STAFF_ID
+        WHERE
+            bi.item_code = #{itemCode}
+        and ai.order_biz_type in ('11', '17', '16')
+    </select>
+
+</mapper>

@@ -2,6 +2,7 @@ package com.kano.plan_c.mcp.config;
 
 import com.kano.plan_c.mcp.tool.ItemTools;
 import com.kano.plan_c.mcp.tool.LocTools;
+import com.kano.plan_c.mcp.tool.OrderInTools;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,7 @@ public class McpConfig {
     }
 
     @Bean
-    public ToolCallbackProvider LocToolProvider(LocTools tools) {
+    public ToolCallbackProvider OrderProvider(OrderInTools tools) {
         return MethodToolCallbackProvider.builder()
                 .toolObjects(tools)
                 .build();

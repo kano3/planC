@@ -1,7 +1,7 @@
 package com.kano.plan_c.controller;
 
-import com.kano.plan_c.server.entity.InvLocInfo;
-import com.kano.plan_c.server.service.InvLocService;
+import com.kano.plan_c.server.entity.OrderInInfo;
+import com.kano.plan_c.server.service.OrderInService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +19,11 @@ import java.util.List;
 public class TestController {
 
     @Resource
-    private InvLocService service;
+    private OrderInService service;
 
     @GetMapping("niHao")
-    public List<InvLocInfo> niHao() {
-        return service.queryInvLocInfo("216561");
+    public List<OrderInInfo> niHao() {
+        return service.queryIn("611181");
     }
 
 }
